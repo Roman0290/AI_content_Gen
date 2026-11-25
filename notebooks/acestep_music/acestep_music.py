@@ -16,9 +16,10 @@ if not os.path.exists("ACE-Step"):
 # ACE-Step pins versions (spacy==3.8.4, transformers==4.50.0, ...) that have no wheels for Kaggle's Python 3.13
 # (F14). Install the package without its pins, then compatible versions one by one; a failing optional
 # package (Japanese/Korean lyric helpers) must not stop an instrumental run. Kaggle's torch is kept.
+# py3langid stays pinned at 0.3.0: newer versions removed LanguageIdentifier.from_pickled_model (F16).
 subprocess.run([sys.executable, "-m", "pip", "install", "-q", "--no-deps", "-e", "ACE-Step"], check=True)
 DEPS = ["diffusers>=0.33,<0.36", "transformers>=4.50,<4.57", "accelerate>=1.6", "datasets>=3.4,<4",
-        "librosa>=0.11", "loguru", "pypinyin", "pytorch_lightning>=2.5", "soundfile", "py3langid",
+        "librosa>=0.11", "loguru", "pypinyin", "pytorch_lightning>=2.5", "soundfile", "py3langid==0.3.0",
         "hangul-romanize", "num2words", "spacy>=3.8.5,<3.9", "peft", "click", "cutlet", "fugashi[unidic-lite]"]
 install_log = {}
 for dep in DEPS:

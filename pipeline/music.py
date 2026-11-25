@@ -58,13 +58,16 @@ def main() -> None:
         (build_dir / "acestep_music.py").write_text(code)
         kid = kaggle_job.write_metadata(build_dir, "heritage-short-music", "Heritage Short music", "acestep_music.py")
         kaggle_job.run(build_dir, kid, CAND, "music", {"model": "ACE-Step-v1-3.5B", "jobs": jobs})
-        stamp.write_text(h)
         timings = json.loads((CAND / "timings.json").read_text())
+        if all((CAND / f"{j['name']}.wav").exists() for j in jobs):
+            stamp.write_text(h)  # only mark as cached when every candidate exists
         for j in timings["jobs"]:  # one runs.jsonl line per generated candidate
             log_call(stage="music", model="ACE-Step-v1-3.5B", params={k: j[k] for k in ("name", "prompt", "duration")},
                      seed=j["seed"], status="ok" if j["status"] == "ok" else "error", latency_s=j["seconds"],
                      gpu=timings["gpu"], cost_usd=0.0, output=f"outputs/music/candidates/{j['name']}.wav")
             print(f"{j['name']}: {j['status']} in {j['seconds']}s")
+    if not any((CAND / f"{j['name']}.wav").exists() for j in jobs):
+        sys.exit("no music candidates were produced; see outputs/music/candidates/timings.json")
     chosen = sb["music"].get("chosen")
     if chosen and (CAND / f"{chosen}.wav").exists():
         shutil.copy(CAND / f"{chosen}.wav", OUT / "chosen.wav")

@@ -1,0 +1,123 @@
+{
+  "shot_01": {
+    "file": "outputs/narration/shot_01_aaa54150fdb9.wav",
+    "hash": "aaa54150fdb9",
+    "model": "gemini-3.8-flash-tts",
+    "speaker": "narrator",
+    "voice": "Aoede",
+    "audio_s": 3.619,
+    "planned_s": 6,
+    "fitted_s": 6,
+    "repaired": "F09"
+  },
+  "shot_02": {
+    "file": "outputs/narration/shot_02_fe5aea73324e.wav",
+    "hash": "fe5aea73324e",
+    "model": "gemini-3.8-flash-tts",
+    "speaker": "mom",
+    "voice": "Kore",
+    "audio_s": 3.133,
+    "planned_s": 7,
+    "fitted_s": 7,
+    "repaired": "F09"
+  },
+  "shot_03": {
+    "file": "outputs/narration/shot_03_64cd275a7666.wav",
+    "hash": "64cd275a7666",
+    "model": "gemini-3.8-flash-tts",
+    "speaker": "narrator",
+    "voice": "Aoede",
+    "audio_s": 5.787,
+    "planned_s": 8,
+    "fitted_s": 8,
+    "repaired": "F09"
+  },
+  "shot_04": {
+    "file": "outputs/narration/shot_04_b9a3c513b38c.wav",
+    "hash": "b9a3c513b38c",
+    "model": "gemini-3.8-flash-tts",
+    "speaker": "child",
+    "voice": "Leda",
+    "audio_s": 2.888,
+    "planned_s": 6,
+    "fitted_s": 6,
+    "repaired": "F09"
+  },
+  "shot_05": {
+    "file": "outputs/narration/shot_05_b493f50870ac.wav",
+    "hash": "b493f50870ac",
+    "model": "gemini-3.8-flash-tts",
+    "speaker": "mom",
+    "voice": "Kore",
+    "audio_s": 4.066,
+    "planned_s": 7,
+    "fitted_s": 7,
+    "repaired": "F09"
+  },
+  "shot_06": {
+    "file": "outputs/narration/shot_06_12c78fa86b2c.wav",
+    "hash": "12c78fa86b2c",
+    "model": "gemini-3.8-flash-tts",
+    "speaker": "narrator",
+    "voice": "Aoede",
+    "audio_s": 4.833,
+    "planned_s": 7,
+    "fitted_s": 7,
+    "repaired": "F09"
+  },
+  "shot_07": {
+    "file": "outputs/narration/shot_07_ecb4392c036f.wav",
+    "hash": "ecb4392c036f",
+    "model": "gemini-3.8-flash-tts",
+    "speaker": "mom",
+    "voice": "Kore",
+    "audio_s": 2.58,
+    "planned_s": 6,
+    "fitted_s": 6,
+    "repaired": "F09"
+  },
+  "shot_09": {
+    "file": "outputs/narration/shot_09_c8354ee30620.wav",
+    "hash": "c8354ee30620",
+    "model": "gemini-3.8-flash-tts",
+    "speaker": "narrator",
+    "voice": "Aoede",
+    "audio_s": 6.24,
+    "planned_s": 7,
+    "fitted_s": 7,
+    "repaired": "F09"
+  },
+  "shot_10": {
+    "file": "outputs/narration/shot_10_6915f481c291.wav",
+    "hash": "6915f481c291",
+    "model": "gemini-3.8-flash-tts",
+    "speaker": "child",
+    "voice": "Leda",
+    "audio_s": 2.309,
+    "planned_s": 5,
+    "fitted_s": 5,
+    "repaired": "F09"
+  },
+  "shot_11": {
+    "file": "outputs/narration/shot_11_e9bf201ce188.wav",
+    "hash": "e9bf201ce188",
+    "model": "gemini-3.8-flash-tts",
+    "speaker": "mom",
+    "voice": "Kore",
+    "audio_s": 1.522,
+    "planned_s": 5,
+    "fitted_s": 5,
+    "repaired": "F09"
+  },
+  "shot_12": {
+    "file": "outputs/narration/shot_12_e0faf40cfe99.wav",
+    "hash": "e0faf40cfe99",
+    "model": "gemini-3.8-flash-tts",
+    "speaker": "narrator",
+    "voice": "Aoede",
+    "audio_s": 5.478,
+    "planned_s": 8,
+    "fitted_s": 8,
+    "repaired": "F09"
+  }
+}

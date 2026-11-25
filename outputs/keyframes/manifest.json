@@ -1,0 +1,99 @@
+{
+  "shot_01": {
+    "file": "outputs/keyframes/shot_01_f836a6cde120.png",
+    "hash": "f836a6cde120",
+    "model": "@cf/black-forest-labs/flux-2-klein-9b",
+    "characters": [
+      "mom"
+    ]
+  },
+  "shot_02": {
+    "file": "outputs/keyframes/shot_02_d652830a7e5f.png",
+    "hash": "d652830a7e5f",
+    "model": "@cf/black-forest-labs/flux-2-klein-9b",
+    "characters": [
+      "mom",
+      "child"
+    ]
+  },
+  "shot_03": {
+    "file": "outputs/keyframes/shot_03_ca43c3a7cfe3.png",
+    "hash": "ca43c3a7cfe3",
+    "model": "@cf/black-forest-labs/flux-2-klein-9b",
+    "characters": [
+      "child"
+    ],
+    "stale": true
+  },
+  "shot_04": {
+    "file": "outputs/keyframes/shot_04_d5b43f39926c.png",
+    "hash": "d5b43f39926c",
+    "model": "@cf/black-forest-labs/flux-2-klein-9b",
+    "characters": [
+      "child"
+    ]
+  },
+  "shot_05": {
+    "file": "outputs/keyframes/shot_05_0a312a6675c0.png",
+    "hash": "0a312a6675c0",
+    "model": "@cf/black-forest-labs/flux-2-klein-9b",
+    "characters": [
+      "mom"
+    ],
+    "stale": true
+  },
+  "shot_06": {
+    "file": "outputs/keyframes/shot_06_5819165f8361.png",
+    "hash": "5819165f8361",
+    "model": "@cf/black-forest-labs/flux-2-klein-9b",
+    "characters": [
+      "mom",
+      "child"
+    ]
+  },
+  "shot_07": {
+    "file": "outputs/keyframes/shot_07_af394e4d360d.png",
+    "hash": "af394e4d360d",
+    "model": "@cf/black-forest-labs/flux-2-klein-9b",
+    "characters": [
+      "mom",
+      "child"
+    ],
+    "stale": true
+  },
+  "shot_09": {
+    "file": "outputs/keyframes/shot_09_49acac4f3351.png",
+    "hash": "49acac4f3351",
+    "model": "@cf/black-forest-labs/flux-2-klein-9b",
+    "characters": [
+      "mom",
+      "child"
+    ]
+  },
+  "shot_10": {
+    "file": "outputs/keyframes/shot_10_95d6887ffca4.png",
+    "hash": "95d6887ffca4",
+    "model": "@cf/black-forest-labs/flux-2-klein-9b",
+    "characters": [
+      "child"
+    ]
+  },
+  "shot_11": {
+    "file": "outputs/keyframes/shot_11_8da2ff073b4c.png",
+    "hash": "8da2ff073b4c",
+    "model": "@cf/black-forest-labs/flux-2-klein-9b",
+    "characters": [
+      "mom"
+    ],
+    "stale": true
+  },
+  "shot_12": {
+    "file": "outputs/keyframes/shot_12_89207b1bd239.png",
+    "hash": "89207b1bd239",
+    "model": "@cf/black-forest-labs/flux-2-klein-9b",
+    "characters": [
+      "mom",
+      "daughter_adult"
+    ]
+  }
+}

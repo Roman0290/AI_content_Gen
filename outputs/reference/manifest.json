@@ -1,0 +1,17 @@
+{
+  "mom": {
+    "file": "outputs/reference/mom_e9cb44ba74f7.png",
+    "hash": "e9cb44ba74f7",
+    "model": "@cf/black-forest-labs/flux-2-klein-9b"
+  },
+  "child": {
+    "file": "outputs/reference/child_29b6b778d8f9.png",
+    "hash": "29b6b778d8f9",
+    "model": "@cf/black-forest-labs/flux-2-klein-9b"
+  },
+  "daughter_adult": {
+    "file": "outputs/reference/daughter_adult_4b9811177179.png",
+    "hash": "4b9811177179",
+    "model": "@cf/black-forest-labs/flux-2-klein-9b"
+  }
+}

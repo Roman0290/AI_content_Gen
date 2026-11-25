@@ -1,0 +1,56 @@
+{
+  "setup_s": 87.6,
+  "gpu": "Tesla T4",
+  "python": "3.13.16",
+  "install": {
+    "diffusers>=0.33,<0.36": "ok",
+    "transformers>=4.50,<4.57": "ok",
+    "accelerate>=1.6": "ok",
+    "datasets>=3.4,<4": "ok",
+    "librosa>=0.11": "ok",
+    "loguru": "ok",
+    "pypinyin": "ok",
+    "pytorch_lightning>=2.5": "ok",
+    "soundfile": "ok",
+    "py3langid==0.3.0": "ok",
+    "hangul-romanize": "ok",
+    "num2words": "ok",
+    "spacy>=3.8.5,<3.9": "ok",
+    "peft": "ok",
+    "click": "ok",
+    "cutlet": "ok",
+    "fugashi[unidic-lite]": "ok"
+  },
+  "jobs": [
+    {
+      "name": "A",
+      "prompt": "Ethiopian traditional instrumental, playful comedy, krar and masinko melody, light kebero drum, cheeky and warm, 100 bpm, acoustic",
+      "lyrics": "[instrumental]",
+      "duration": 77,
+      "seed": 11,
+      "steps": 60,
+      "status": "ok",
+      "seconds": 186.7
+    },
+    {
+      "name": "B",
+      "prompt": "Ethiopian tizita style instrumental, warm and nostalgic, masinko lead, soft krar, gentle percussion, slow, 80 bpm, acoustic",
+      "lyrics": "[instrumental]",
+      "duration": 77,
+      "seed": 22,
+      "steps": 60,
+      "status": "ok",
+      "seconds": 137.0
+    },
+    {
+      "name": "C",
+      "prompt": "Ethiopian eskista inspired instrumental, lively 6/8 rhythm, kebero drum, krar riffs, bright and funny, 110 bpm, acoustic",
+      "lyrics": "[instrumental]",
+      "duration": 77,
+      "seed": 33,
+      "steps": 60,
+      "status": "ok",
+      "seconds": 133.2
+    }
+  ]
+}

@@ -4,6 +4,7 @@ The script and its kernel-metadata.json live in notebooks/<job>/; this pushes th
 polls until it finishes, and downloads /kaggle/working into a local folder. Every run is logged.
 """
 import json
+import re
 import os
 import shutil
 import subprocess
@@ -38,7 +39,14 @@ def _env() -> dict:
 
 
 def _kaggle(*args, check=True) -> str:
-    r = subprocess.run([KAGGLE, *args], capture_output=True, text=True, env=_env())
+    try:  # a status call once hung for 52 min and froze the poller (F16)
+        r = subprocess.run([KAGGLE, *args], capture_output=True, text=True, env=_env(),
+                           timeout=600 if args[:2] in (("kernels", "push"), ("datasets", "create"),
+                                                       ("datasets", "version"), ("kernels", "output")) else 120)
+    except subprocess.TimeoutExpired:
+        if check:
+            raise RuntimeError(f"kaggle {' '.join(args)} timed out")
+        return "timeout"
     if check and r.returncode != 0:
         raise RuntimeError(f"kaggle {' '.join(args)} failed: {r.stdout}{r.stderr}")
     return r.stdout + r.stderr
@@ -67,7 +75,13 @@ def run(job_dir: Path, kid: str, out_dir: Path, stage: str, params: dict, poll_s
         s = _kaggle("kernels", "status", kid, check=False).lower()
         if "404" in s or "not found" in s:
             raise RuntimeError(f"Kaggle kernel {kid} not found while polling: {s.strip()}")
-        status = next((w for w in ("complete", "error", "cancel", "running", "queued") if w in s), s.strip())
+        # Only trust Kaggle's own status field: a network error message (e.g. after the laptop sleeps) contains
+        # the word "error" and was once mistaken for a failed job (F18).
+        m = re.search(r"kernelworkerstatus\.(\w+)", s)
+        if not m:
+            print(f"  [{int(time.time() - start):>5}s] status unavailable, retrying: {s.strip()[:120]}", flush=True)
+            continue
+        status = next((w for w in ("complete", "error", "cancel", "running", "queued") if w in m.group(1)), m.group(1))
         print(f"  [{int(time.time() - start):>5}s] {status}", flush=True)
         if status in ("complete", "error", "cancel"):
             break

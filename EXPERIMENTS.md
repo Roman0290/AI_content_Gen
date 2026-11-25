@@ -51,3 +51,15 @@
 - **Result:** across all 11 keyframes Mom keeps the same headwrap with tilet border, cream dress, gold cross and face; the girl keeps the hair puffs with yellow ribbons, striped t-shirt and grey skirt. Contact sheet: `outputs/keyframes/contact_sheet.jpg`. The jebena described by shape (E01) now renders as a black clay pot.
 - **Failures in the same batch:** emotion was often wrong: shot 07 Mom smiling instead of scolding, shot 11 facing the camera and smiling instead of turned away, shot 03 girl smiling while searching; shot 05 included a blonde non-Ethiopian guest. The adult daughter sheet kept the child's hair puffs in the close-up.
 - **Decision:** keep the reference-sheet approach. Write emotions as strong visible actions ("furious, mouth open mid-shout", "view from behind") and say the guests are Ethiopian. Re-run of shots 03/05/07/11 blocked by F07.
+
+## E05: Choosing the score from three ACE-Step candidates (2026-11-25)
+- **Hypothesis:** the genre of the score changes how the film reads. A playful track makes Mom a joke; a
+  nostalgic one makes the film a memory, which is the intended tone ("we laugh when we remember", without
+  saying it in the story).
+- **Change:** the same storyboard generated three 77 s instrumentals with ACE-Step v1 on a Kaggle T4, with fixed
+  seeds: **A** playful krar/masinko/kebero at 100 bpm (seed 11), **B** tizita, warm and nostalgic at 80 bpm
+  (seed 22), **C** lively eskista in 6/8 at 110 bpm (seed 33). Each was mixed under the narration with the
+  same sidechain ducking.
+- **Result:** chosen **B (tizita)** after listening to all three. ✍️ Reason, in your own words: ...
+- **Decision:** `storyboard.json` → `music.chosen: "B"`; `make film` copies it to `outputs/music/chosen.wav`.
+  Both exports measure **−16.8 LUFS** integrated (target −16).

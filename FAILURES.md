@@ -83,3 +83,22 @@
 ## F15: Second Kaggle account had no internet (2026-11-25)
 - **What broke:** the memory-safe Wan job on the second account failed at the first `pip install`: `Failed to resolve 'pypi.org'`. The kernel metadata requests `enable_internet: true`, but Kaggle only grants internet (and GPU) to phone-verified accounts and silently runs without it otherwise. Nothing reached the GPU, so the F13 memory fixes are still untested.
 - **Fix:** phone-verify the account (Kaggle → Settings → Phone verification), or run on the verified account after the music job. Next improvement: a 10-second preflight cell that checks internet and `nvidia-smi` and fails loudly before any long setup.
+
+## F16: Music ran but produced nothing; a Kaggle status call hung for 52 minutes (2026-11-25)
+- **What broke (music):** version 3 got a T4 after ~75 min in the queue, installed in 90 s and loaded ACE-Step, but all three candidates failed in 19–58 s: `LanguageIdentifier has no attribute 'from_pickled_model'`. Unpinning dependencies for F14 pulled a newer `py3langid` whose API changed.
+- **What broke (watcher):** the local Wan poller stopped printing at 301 s; `ps` showed one `kaggle kernels status` subprocess hung for 52 min.
+- **What fixed it:** pinned `py3langid==0.3.0` (pure Python, fine on 3.13); `music.py` no longer stamps the cache unless every candidate exists, and exits non-zero when none were produced. Every Kaggle CLI call now has a timeout (120 s for status, 600 s for push/upload/download); I killed the hung call and the poller resumed.
+- **Lesson:** "unpin everything" fixes one break and causes the next; pin what the code calls directly, relax only what blocks the install.
+
+## F17: Laptop slept during the Kaggle jobs; downloads broke, not the jobs (2026-11-25)
+- **What happened:** both pollers reported `error` after a ~2 h jump in their clocks (386 s → 7,247 s): the laptop had gone to sleep, and the download step failed with `Connection aborted`. Kaggle itself showed the music job **COMPLETE** (A 186.7 s, B 137.0 s, C 133.2 s on a T4, setup 87.6 s) and the Wan job still **QUEUED**.
+- **What fixed it:** downloaded the music outputs again (`kaggle kernels output`), logged the three generations to runs.jsonl from `timings.json`, stamped the cache; re-attached a watcher to the queued Wan job with `--resume`.
+- **Lesson:** a remote job's status and the local poller's status are different things; check the remote state before re-running anything.
+
+## F18: Watcher reported a queued job as "error"
+- **What happened:** after the laptop woke from sleep, the Wan watcher stopped with "ended with status error",
+  but Kaggle still showed the job as QUEUED.
+- **Cause:** the status call returned a network error message. The poller looked for the word "error"
+  anywhere in the output, so it mistook the connection failure for a failed job.
+- **Fix:** the poller now reads only Kaggle's `KernelWorkerStatus.<X>` field. Any other output counts as
+  "status unavailable" and is retried. The watcher was re-attached with `--resume`, and the job was never lost.

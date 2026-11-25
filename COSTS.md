@@ -21,7 +21,7 @@ come from `runs.jsonl` (aggregate it with the snippet at the bottom).
 | Narration (lite, discarded) | gemini-3.8-flash-lite-tts | 9 | 3.9 s | 0 | — (rejected by ear, E03) |
 | Shots (fallback) | FFmpeg pan-and-zoom, local | 11 | ~5 s per shot | 0 | $0 |
 | Shots (Wan 2.2) | Wan 2.2 TI2V-5B, 480×832, 81 frames, 25 steps, Kaggle T4 | TODO from runs.jsonl `shots_wan` | TODO | TODO | T4 ≈ $0.35/h on-demand cloud → TODO |
-| Music | ACE-Step v1 3.5B, 3 × ~77 s, 60 steps, Kaggle T4 | TODO from runs.jsonl `music` | TODO | TODO | TODO |
+| Music | ACE-Step v1 3.5B, 3 × 77 s, 60 steps, Kaggle T4 | 3 | 152 s per candidate (A 186.7, B 137.0, C 133.2) + 87.6 s setup | ≈ 9.1 GPU min of generation (plus ~75 min in Kaggle's free queue) | ≈ $0.05 at T4 ≈ $0.35/h |
 | Assembly | FFmpeg, local | — | ~2 min for both exports | 0 | $0 |
 
 Failed or wasted calls are part of the cost: 12 narration calls failed on the daily quota (≈ 55 s each

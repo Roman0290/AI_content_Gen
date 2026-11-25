@@ -1,0 +1,253 @@
+{
+  "title": "If I Come and Find It",
+  "language": "am",
+  "subtitle_language": "en",
+  "audience": "Ethiopian and Habesha viewers, at home and in the diaspora, watching on their phones (TikTok, Instagram, Telegram, family WhatsApp groups).",
+  "intent": "Viewers recognise their own mom, laugh at the memory, tag their siblings, and end feeling warm about her. In the moment it was not funny (Mom was really angry or busy); the laugh comes when we remember it. This is the tone of the film, shown through Mom's real anger, not said out loud.",
+  "style": {
+    "description": "Warm hand-painted 2D illustration, soft film grain, golden afternoon light, cosy Ethiopian home, expressive comic faces, gentle exaggeration like a family cartoon"
+  },
+  "characters": [
+    {
+      "id": "mom",
+      "description": "Ethiopian mother in her mid-40s, warm brown skin, kind round face, hair wrapped in a white netela with a thin green, yellow and red tilet border, wearing a simple cream habesha dress at home, small gold cross necklace",
+      "real_person": false,
+      "consent_ref": "ETHICS.md#consent-records",
+      "seed": 1001
+    },
+    {
+      "id": "child",
+      "description": "Ethiopian girl about 11 years old, curly black hair in two puffs with yellow ribbons, big expressive eyes, blue and white striped t-shirt, grey skirt",
+      "real_person": false,
+      "seed": 1002
+    },
+    {
+      "id": "daughter_adult",
+      "description": "The same girl grown up, mid-20s, curly black hair worn loose, yellow ribbon tied on her wrist, casual cream sweater",
+      "real_person": false,
+      "based_on": "child",
+      "seed": 1003
+    }
+  ],
+  "voices": {
+    "narrator": "Aoede",
+    "mom": "Kore",
+    "child": "Leda"
+  },
+  "shots": [
+    {
+      "id": "shot_01",
+      "duration_s": 6,
+      "reason": "Hook: names the shared experience in the first seconds so Habesha viewers stop scrolling.",
+      "characters": [
+        "mom"
+      ],
+      "image_prompt": "Cosy Ethiopian living room full of relatives on low sofas, coffee ceremony on the floor: a round-bellied black clay coffee pot with a long thin neck, a small spout and a handle, tiny handleless white cups on a wooden tray, fresh green grass spread on the floor, a small incense burner with smoke, a bowl of popcorn, mom sitting in the centre, golden afternoon light",
+      "motion_prompt": "Slow push-in towards mom, incense smoke drifting, relatives laughing",
+      "speaker": "narrator",
+      "delivery": "Grown-up daughter remembering, amused, nostalgic",
+      "narration": "እያንዳንዷ የሀበሻ እናት የተደበቀ ልዕለ ኃይል አላት።",
+      "subtitle_en": "Every Habesha mom has a hidden superpower.",
+      "seed": 101,
+      "music_cue": "intro: playful krar motif enters"
+    },
+    {
+      "id": "shot_02",
+      "duration_s": 7,
+      "reason": "Sets up the request: an ordinary moment every viewer has lived.",
+      "characters": [
+        "mom",
+        "child"
+      ],
+      "image_prompt": "Mom on the sofa among guests, pointing towards a hallway, the girl standing beside her ready to go",
+      "motion_prompt": "Mom gestures towards the hallway, the girl nods and turns to walk",
+      "speaker": "mom",
+      "delivery": "Completely normal, casual, still chatting with guests. Not a joke to her",
+      "narration": "ልጄ፣ ቦርሳዬን ከመኝታ ቤቱ ጠረጴዛ ላይ አምጪልኝ።",
+      "subtitle_en": "My daughter, bring me my bag from the bedroom table.",
+      "seed": 102,
+      "music_cue": "light walking rhythm"
+    },
+    {
+      "id": "shot_03",
+      "duration_s": 8,
+      "reason": "The search: exaggerated effort makes the later reveal funnier.",
+      "characters": [
+        "child"
+      ],
+      "image_prompt": "Bedroom turned upside down, the girl on her knees looking under the bed with a worried, panicked face, wardrobe doors open, clothes flying, the bedside table empty",
+      "motion_prompt": "Fast comic pan across the room as the girl searches frantically, clothes tossed in the air",
+      "speaker": "narrator",
+      "delivery": "Building comic tension, a little faster",
+      "narration": "ገባሁ። ጠረጴዛው ላይ የለም። ከአልጋ ስር፣ ቁም ሳጥን ውስጥ… ሁሉንም ቦታ ፈለግኩ።",
+      "subtitle_en": "I went in. Not on the table. Under the bed, in the wardrobe... I searched everywhere.",
+      "seed": 103,
+      "music_cue": "tension: kebero speeds up"
+    },
+    {
+      "id": "shot_04",
+      "duration_s": 6,
+      "reason": "The child's surrender: the mistake every kid makes.",
+      "characters": [
+        "child"
+      ],
+      "image_prompt": "The girl standing in the bedroom doorway, hands cupped around her mouth, shouting towards the living room, frustrated face",
+      "motion_prompt": "Boy shouts, shoulders drop, small camera shake",
+      "speaker": "child",
+      "delivery": "Shouting from another room, frustrated, a little scared",
+      "narration": "እማዬ! የለም! አላገኘሁትም!",
+      "subtitle_en": "Mom! It's not here! I can't find it!",
+      "seed": 104,
+      "music_cue": "music stops dead"
+    },
+    {
+      "id": "shot_05",
+      "duration_s": 7,
+      "reason": "The moment the child dreads: Mom is really annoyed and coming. The laugh comes from viewers remembering it, not from Mom joking.",
+      "characters": [
+        "mom"
+      ],
+      "image_prompt": "Mom in the living room, furious, frowning, eyebrows drawn together, putting her coffee cup down hard and getting up from the sofa, Ethiopian relatives behind her going quiet and staring",
+      "motion_prompt": "Mom rises from the sofa, annoyed, and walks towards the hallway",
+      "speaker": "mom",
+      "delivery": "Angry: she asked for one simple thing and the child says it's not there",
+      "narration": "ምን?! የለም?! እኔ መጥቼ ካገኘሁት… እረግጥሻለሁ!",
+      "subtitle_en": "What?! It's not there?! If I come in there and find it... I'm kicking you!",
+      "seed": 105,
+      "music_cue": "dramatic sting, masinko slide",
+      "tts_tag": "angry"
+    },
+    {
+      "id": "shot_06",
+      "duration_s": 7,
+      "reason": "The reveal: the bag was in plain sight the whole time.",
+      "characters": [
+        "mom",
+        "child"
+      ],
+      "image_prompt": "Mom storming into the messy bedroom, annoyed face, the bag sitting in plain sight in the middle of the bed with a soft glow, the girl frozen and scared",
+      "motion_prompt": "Mom marches in, glances once, camera snaps to the glowing bag on the bed",
+      "speaker": "narrator",
+      "delivery": "Disbelief, then a beat of silence before the last words",
+      "narration": "እናቴ ገባች። አንድ ሰከንድ እንኳን አልፈጀባትም። አልጋው ላይ ነበር፣ ፊት ለፊቴ!",
+      "subtitle_en": "Mom walked in. It didn't take her one second. It was on the bed, right in front of me!",
+      "seed": 106,
+      "music_cue": "magical shimmer"
+    },
+    {
+      "id": "shot_07",
+      "duration_s": 6,
+      "reason": "Mom's scolding line, the second classic phrase. Serious for the child; funny only in hindsight.",
+      "characters": [
+        "mom",
+        "child"
+      ],
+      "image_prompt": "Mom furious and scolding, frowning, mouth open mid-shout, holding the brown handbag up high right in front of the girl's face and pointing at it with her other hand; the girl looks down at the floor, embarrassed; messy bedroom behind them",
+      "motion_prompt": "close push-in on mom's angry face",
+      "speaker": "mom",
+      "delivery": "Angry disbelief when she finds it right there: 'what is this?!'",
+      "narration": "ይኸው! ይሄ ምንድነው?! ዓይንሽ የት ነው ያለው?!",
+      "subtitle_en": "Here it is! What is this?! Where are your eyes?!",
+      "seed": 107,
+      "music_cue": "playful motif returns",
+      "tts_tag": "angry",
+      "keyframe_from": "shot_06"
+    },
+    {
+      "id": "shot_09",
+      "duration_s": 7,
+      "reason": "Second story setup: Mom is overloaded and busy, which is why the next answer comes out the way it does.",
+      "characters": [
+        "mom",
+        "child"
+      ],
+      "image_prompt": "Ethiopian kitchen, mom stressed and sweating over a big pot of red doro wot, steam and chopped onions everywhere, several pots on the stove, the girl behind her proudly holding a full dustpan of trash",
+      "motion_prompt": "Steam rising, mom stirring quickly, the girl walks in holding the dustpan",
+      "speaker": "narrator",
+      "delivery": "Light, setting up the next joke",
+      "narration": "ሌላ ቀን ደግሞ እናቴ ወጥ እየሰራች ነበር። ቤቱን አጽድቼ ቆሻሻውን ይዤ መጣሁ።",
+      "subtitle_en": "Another day, Mom was busy making wot. I cleaned the house and came with the trash.",
+      "seed": 109,
+      "music_cue": "kitchen groove, light percussion"
+    },
+    {
+      "id": "shot_10",
+      "duration_s": 5,
+      "reason": "The innocent question that sets up the final punchline.",
+      "characters": [
+        "child"
+      ],
+      "image_prompt": "Close-up of the girl holding the dustpan, innocent hopeful face",
+      "motion_prompt": "Boy tilts her head and asks",
+      "speaker": "child",
+      "delivery": "Innocent, helpful, proud of herself",
+      "narration": "እማዬ፣ ቆሻሻውን የት ላድርገው?",
+      "subtitle_en": "Mom, where should I put the trash?",
+      "seed": 110,
+      "music_cue": "beat drops out"
+    },
+    {
+      "id": "shot_11",
+      "duration_s": 5,
+      "reason": "The biggest laugh for viewers, because every Habesha kid has heard it from a stressed mom.",
+      "characters": [
+        "mom",
+        "child"
+      ],
+      "image_prompt": "View from behind the mother: we see her back and white headwrap as she stands at the stove stirring a pot hard; she does not turn around; one hand raised back over her shoulder, waving the girl away in irritation; the girl stands in the kitchen doorway in the background holding the dustpan, confused",
+      "motion_prompt": "close push-in on mom's face",
+      "speaker": "mom",
+      "delivery": "Sarcastic and angry, busy at the stove, not looking up",
+      "narration": "ራሴ ላይ አድርጊው!",
+      "subtitle_en": "Put it on my head!",
+      "seed": 111,
+      "music_cue": "comic sting",
+      "tts_tag": "sarcastic, annoyed",
+      "keyframe_from": "shot_09"
+    },
+    {
+      "id": "shot_12",
+      "duration_s": 8,
+      "reason": "Lands the idea: now, together, we laugh. The scolding turns into love, which is what makes people share it.",
+      "characters": [
+        "mom",
+        "daughter_adult"
+      ],
+      "image_prompt": "Years later, the grown-up daughter in her mid-20s (same curly hair, yellow ribbon tied on her wrist) and her older mom laughing together on the sofa over coffee, warm lamp light, the same old bag beside them",
+      "motion_prompt": "Slow pull-out from mother and daughter laughing together",
+      "speaker": "narrator",
+      "delivery": "Warm and affectionate, slowing down at the end",
+      "narration": "ሀበሻ እናቶች ሁሉንም ነገር ያገኛሉ፤ ለሁሉም ነገር መልስ አላቸው። ለእማዬ።",
+      "subtitle_en": "Habesha moms find everything, and have an answer for everything. For my mom.",
+      "seed": 112,
+      "music_cue": "full warm melody, resolve"
+    }
+  ],
+  "music": {
+    "prompt": "Playful Ethiopian comedy score, krar and masinko melody, light kebero percussion, warm and cheeky, tizita-inspired warmth at the end, instrumental, about 100 bpm",
+    "bpm": 100,
+    "candidates": [
+      {
+        "name": "A",
+        "seed": 11,
+        "prompt": "Ethiopian traditional instrumental, playful comedy, krar and masinko melody, light kebero drum, cheeky and warm, 100 bpm, acoustic"
+      },
+      {
+        "name": "B",
+        "seed": 22,
+        "prompt": "Ethiopian tizita style instrumental, warm and nostalgic, masinko lead, soft krar, gentle percussion, slow, 80 bpm, acoustic"
+      },
+      {
+        "name": "C",
+        "seed": 33,
+        "prompt": "Ethiopian eskista inspired instrumental, lively 6/8 rhythm, kebero drum, krar riffs, bright and funny, 110 bpm, acoustic"
+      }
+    ]
+  },
+  "end_card": "Made with AI · ለእናቶቻችን",
+  "end_card_duration_s": 3,
+  "format": {
+    "width": 720,
+    "height": 1280
+  }
+}

@@ -102,3 +102,18 @@
   anywhere in the output, so it mistook the connection failure for a failed job.
 - **Fix:** the poller now reads only Kaggle's `KernelWorkerStatus.<X>` field. Any other output counts as
   "status unavailable" and is retried. The watcher was re-attached with `--resume`, and the job was never lost.
+
+## F19: Wan job fit in memory but every shot failed on a device mismatch (2026-11-26)
+- **What happened:** account 2's job sat in Kaggle's queue for ~14 h and never started. Re-pushed on account
+  1, it got a T4 within a minute. The F13 memory plan worked: text embeddings in 87 s, no out-of-memory, peak
+  12.9 GB. But all 9 shots failed within 13–23 s: `Expected all tensors to be on the same device, but got mat1
+  is on cpu`.
+- **Cause:** the prompt embeddings were computed before the pipeline existed and stored on CPU. With
+  `text_encoder=None` the pipeline uses the supplied embeddings as-is and never moves them, so the transformer
+  (on CUDA under model offload) received CPU inputs.
+- **Fix:** move the embeddings to CUDA in the call. On a device error, log the traceback and retry with the
+  next memory strategy. Stop after the same error twice in a row. Before this, all 9 shots burned GPU time on
+  one identical bug.
+- **Lesson:** a memory trick that removes a component also removes what that component was doing implicitly
+  (here: device placement). Also: when a queued job doesn't start for hours, try another account instead of
+  waiting.

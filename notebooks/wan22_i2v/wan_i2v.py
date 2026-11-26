@@ -16,6 +16,7 @@ import os
 import subprocess
 import sys
 import time
+import traceback
 
 T0 = time.time()
 LOG = open("/kaggle/working/progress.log", "a")
@@ -156,7 +157,11 @@ def step_log(p, i, ts, kw):
 
 # ---- 3. shots ---------------------------------------------------------------------------------------------
 oom_in_a_row = 0
+other_errors = []
 for job in cfg["jobs"]:
+    if len(other_errors) >= 2 and other_errors[-1] == other_errors[-2]:  # same bug twice: stop burning GPU time
+        timings["jobs"].append({**job, "status": "skipped: repeated error " + other_errors[-1][:120]})
+        continue
     if oom_in_a_row >= 2:
         timings["jobs"].append({**job, "status": "skipped: repeated out-of-memory"})
         continue
@@ -170,7 +175,10 @@ for job in cfg["jobs"]:
         frames = None
         try:
             log("shot", job["shot"], "with", STRATEGIES[strategy_idx])
-            frames = pipe(image=image, prompt_embeds=PROMPT_EMB[job["shot"]], negative_prompt_embeds=NEG_EMB,
+            # The embeddings were made before the pipeline existed and live on CPU; the pipeline does not move
+            # caller-supplied embeddings, so the transformer got CPU inputs on a CUDA model (F19).
+            frames = pipe(image=image, prompt_embeds=PROMPT_EMB[job["shot"]].to("cuda"),
+                          negative_prompt_embeds=NEG_EMB.to("cuda"),
                           height=H, width=W, num_frames=FRAMES, num_inference_steps=STEPS, guidance_scale=5.0,
                           generator=torch.Generator("cpu").manual_seed(job["seed"]),
                           callback_on_step_end=step_log).frames[0]
@@ -180,6 +188,7 @@ for job in cfg["jobs"]:
             export_to_video(frames, f"/kaggle/working/{job['out_name']}.mp4", fps=24)
             status = "ok" if ok else f"suspect: mean {mid.mean() / scale:.3f}"
             oom_in_a_row = 0
+            other_errors.clear()
         except torch.cuda.OutOfMemoryError as e:
             frames = None
             free()
@@ -191,8 +200,14 @@ for job in cfg["jobs"]:
             oom_in_a_row += 1
         except Exception as e:
             frames = None
+            log("traceback:", traceback.format_exc()[-3000:])
             free()
+            if "same device" in str(e) and strategy_idx + 1 < len(STRATEGIES):
+                strategy_idx += 1
+                apply_strategy(strategy_idx)
+                continue
             status = f"error: {e!r}"[:300]
+            other_errors.append(status)
         break
     rec = {**job, "status": status, "strategy": STRATEGIES[strategy_idx], "seconds": round(time.time() - s, 1),
            "peak_gb": round(torch.cuda.max_memory_allocated() / 2**30, 2)}

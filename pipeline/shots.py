@@ -12,9 +12,10 @@ Writes outputs/shots/<shot>_<hash>.mp4 and outputs/shots/manifest.json (720x1280
 import argparse
 import json
 import subprocess
+from pathlib import Path
 import sys
 
-from pipeline.common.cache import cached_path, input_hash, is_cached
+from pipeline.common.cache import cached_path, input_hash, is_cached, wan_name
 from pipeline.common.config import OUTPUTS, ROOT, load_storyboard
 from pipeline.common.timeline import build
 
@@ -46,15 +47,36 @@ def render_pan(keyframe: str, motion: str, dur: float, out) -> None:
                    check=True)
 
 
-def render_wan(clip: str, dur: float, out) -> None:
-    """Fit a ~5 s Wan clip to the shot: slow it down up to 1.5x, then hold the last frame."""
+def render_wan(clip: str, dur: float, out, use_s: float | None = None) -> None:
+    """Fit a ~2 s Wan clip to the shot without freezing: play it slowed down (up to 1.25x), then keep moving
+    with a slow camera push-in over its last frame (user test 2: the frozen second half looked dead)."""
     src = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", clip],
                                capture_output=True, text=True, check=True).stdout)
-    stretch = min(dur / src, 1.5)
-    vf = (f"setpts={stretch:.4f}*PTS,fps={FPS},scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},"
-          f"tpad=stop_mode=clone:stop_duration={dur},format=yuv420p")
-    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", clip, "-vf", vf, "-t", str(dur), "-c:v", "libx264",
-                    "-preset", "veryfast", "-crf", "18", "-an", str(out)], check=True)
+    if use_s:  # only the first use_s seconds, before the faces drift (user test 2)
+        src = min(src, use_s)
+    stretch = min(dur / src, 1.25)
+    part = min(src * stretch, dur)
+    tmp = Path(str(out) + ".part.mp4")
+    last = Path(str(out) + ".last.png")
+    vf = f"setpts={stretch:.4f}*PTS,fps={FPS},scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},format=yuv420p"
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", clip, "-vf", vf, "-t", f"{part:.3f}", "-c:v", "libx264",
+                    "-preset", "veryfast", "-crf", "18", "-an", str(tmp)], check=True)
+    rest = round((dur - part) * FPS)
+    if rest < 2:
+        tmp.replace(out)
+        return
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-sseof", "-0.1", "-i", str(tmp), "-frames:v", "1", "-update", "1",
+                    str(last)], check=True)
+    hold = Path(str(out) + ".hold.mp4")
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-loop", "1", "-i", str(last), "-vf",
+                    pan_filter("slow push-in", rest), "-frames:v", str(rest), "-c:v", "libx264", "-preset",
+                    "veryfast", "-crf", "18", "-an", str(hold)], check=True)
+    lst = Path(str(out) + ".txt")
+    lst.write_text(f"file '{tmp.resolve()}'\nfile '{hold.resolve()}'\n")
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy",
+                    str(out)], check=True)
+    for f in (tmp, last, hold, lst):
+        f.unlink(missing_ok=True)
 
 
 def main() -> None:
@@ -75,14 +97,18 @@ def main() -> None:
         if kid not in kf:
             print(f"{sid}: no keyframe, skipped")
             continue
-        wan = WAN_DIR / f"{sid}_{kf[kid]['hash']}.mp4"
-        method = "wan" if wan.exists() else "pan"
+        wan = WAN_DIR / f"{wan_name(shot, kf[kid]['hash'])}.mp4"
+        method = "wan" if wan.exists() and shot.get("animate", True) else "pan"  # animate:false -> keyframe (drift)
         source = str(wan) if method == "wan" else str(ROOT / kf[kid]["file"])
-        h = input_hash("shot-v1", method, kf[kid]["hash"], dur, shot["motion_prompt"] if method == "pan" else "")
+        h = input_hash("shot-v1", method, kf[kid]["hash"], dur, shot["motion_prompt"] if method == "pan" else "") \
+            if method == "pan" else input_hash("shot-v2", method, wan.name, dur, shot.get("wan_use_s"))
         out = cached_path(OUT, sid, h, "mp4")
         status = "cached"
         if args.shot in (None, sid) and (args.force or not is_cached(out)):
-            (render_wan if method == "wan" else render_pan)(source, *(() if method == "wan" else (shot["motion_prompt"],)), dur, out)
+            if method == "wan":
+                render_wan(source, dur, out, shot.get("wan_use_s"))
+            else:
+                render_pan(source, shot["motion_prompt"], dur, out)
             status = "new"
         manifest[sid] = {"file": str(out.relative_to(ROOT)), "hash": h, "method": method, "dur": dur,
                          "keyframe": kf[kid]["file"], "keyframe_from": kid if kid != sid else None,

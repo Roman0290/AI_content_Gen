@@ -49,7 +49,8 @@
       "narration": "እያንዳንዷ የሀበሻ እናት የተደበቀ ልዕለ ኃይል አላት።",
       "subtitle_en": "Every Habesha mom has a hidden superpower.",
       "seed": 101,
-      "music_cue": "intro: playful krar motif enters"
+      "music_cue": "intro: playful krar motif enters",
+      "wan_motion_prompt": "Almost still. Steam rises gently from the coffee cups, the family breathe, blink and smile softly. Everyone stays in place. Camera very slowly pushes in"
     },
     {
       "id": "shot_02",
@@ -82,7 +83,8 @@
       "narration": "ገባሁ። ጠረጴዛው ላይ የለም። ከአልጋ ስር፣ ቁም ሳጥን ውስጥ… ሁሉንም ቦታ ፈለግኩ።",
       "subtitle_en": "I went in. Not on the table. Under the bed, in the wardrobe... I searched everywhere.",
       "seed": 103,
-      "music_cue": "tension: kebero speeds up"
+      "music_cue": "tension: kebero speeds up",
+      "wan_motion_prompt": "The girl stays kneeling in the same place and slowly turns her head to look around, a cloth in her hand moves a little. Camera static"
     },
     {
       "id": "shot_04",
@@ -92,13 +94,15 @@
         "child"
       ],
       "image_prompt": "The girl standing in the bedroom doorway, hands cupped around her mouth, shouting towards the living room, frustrated face",
-      "motion_prompt": "Boy shouts, shoulders drop, small camera shake",
+      "motion_prompt": "The girl shouts, shoulders drop, small camera shake",
       "speaker": "child",
       "delivery": "Shouting from another room, frustrated, a little scared",
       "narration": "እማዬ! የለም! አላገኘሁትም!",
       "subtitle_en": "Mom! It's not here! I can't find it!",
       "seed": 104,
-      "music_cue": "music stops dead"
+      "music_cue": "music stops dead",
+      "wan_motion_prompt": "The girl stands still with her hands on her cheeks, she blinks and her shoulders drop slightly. Camera static",
+      "wan_use_s": 1.0
     },
     {
       "id": "shot_05",
@@ -115,7 +119,9 @@
       "subtitle_en": "What?! It's not there?! If I come in there and find it... I'm kicking you!",
       "seed": 105,
       "music_cue": "dramatic sting, masinko slide",
-      "tts_tag": "angry"
+      "tts_tag": "angry",
+      "wan_motion_prompt": "Mom stays standing in the centre of the frame with an angry face and points one finger towards the hallway; the guests glance at her. Camera static",
+      "wan_use_s": 1.0
     },
     {
       "id": "shot_06",
@@ -178,7 +184,7 @@
         "child"
       ],
       "image_prompt": "Close-up of the girl holding the dustpan, innocent hopeful face",
-      "motion_prompt": "Boy tilts her head and asks",
+      "motion_prompt": "The girl tilts her head and asks",
       "speaker": "child",
       "delivery": "Innocent, helpful, proud of herself",
       "narration": "እማዬ፣ ቆሻሻውን የት ላድርገው?",

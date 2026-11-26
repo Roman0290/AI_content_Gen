@@ -20,11 +20,11 @@ come from `runs.jsonl` (aggregate it with the snippet at the bottom).
 | Narration (main) | gemini-3.8-flash-tts | 11 | 17.5 s (incl. queueing; single calls 4–8 s) | 0 | see Gemini API pricing page for TTS; ~47 s of audio total |
 | Narration (lite, discarded) | gemini-3.8-flash-lite-tts | 9 | 3.9 s | 0 | — (rejected by ear, E03) |
 | Shots (fallback) | FFmpeg pan-and-zoom, local | 11 | ~5 s per shot | 0 | $0 |
-| Shots (Wan 2.2) | Wan 2.2 TI2V-5B, 480×832, 81 frames, 25 steps, Kaggle T4 | TODO from runs.jsonl `shots_wan` | TODO | TODO | T4 ≈ $0.35/h on-demand cloud → TODO |
+| Shots (Wan 2.2) | Wan 2.2 TI2V-5B, 480×832, 49 frames, 25 steps, model CPU offload, Kaggle T4 | 9 | 474 s per clip (471.8–485.3 s), peak 12.96 GB VRAM, + 342 s setup | 76.9 (successful run) + ~7.5 (F19 run) + F13 run | ≈ $0.45 at T4 ≈ $0.35/h |
 | Music | ACE-Step v1 3.5B, 3 × 77 s, 60 steps, Kaggle T4 | 3 | 152 s per candidate (A 186.7, B 137.0, C 133.2) + 87.6 s setup | ≈ 9.1 GPU min of generation (plus ~75 min in Kaggle's free queue) | ≈ $0.05 at T4 ≈ $0.35/h |
 | Assembly | FFmpeg, local | — | ~2 min for both exports | 0 | $0 |
 
-Failed or wasted calls are part of the cost: 12 narration calls failed on the daily quota (≈ 55 s each
+Failed or wasted calls are part of the cost: the Wan job queued ~14 h on account 2 and never started (switched accounts), and one 7.5 min run failed every shot on a device bug (F19); 12 narration calls failed on the daily quota (≈ 55 s each
 before F06's fix stopped retrying daily quotas), 4 keyframe calls failed on the Cloudflare allocation.
 
 ## Experiments

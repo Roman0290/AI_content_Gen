@@ -18,12 +18,16 @@ TODO: fill with what each tester actually said (at least 3 people).
 |---|---|---|
 
 ## User test 2: near-final cut
-File played: `outputs/final/film_9x16.mp4`.
-
-TODO: fill with what each tester actually said (at least 3 people).
+File played: `outputs/final/film_9x16.mp4` (9 Wan shots, music B), 2026-11-26.
 
 | Person | What they said | What changed |
 |---|---|---|
+| Person 1 (✍️ who: relation, age, where they live) | In the first part, Mom doesn't pronounce the Amharic ejective ch' sound (ጨ family, as in ጭ) properly. | The sound is in shot 02, "አምጪልኝ". E06: 3 new takes (retake, `[clear]` tag, a rephrase without the sound "ይዘሽልኝ ነይ"), chosen by ear: ✍️ result |
+| Person 2 (✍️ who) | The animation changes people's appearance a little. | First/last-frame check of all 9 Wan clips confirmed it: in 01 people rearrange and a new man appears, in 03 the girl turns into a different child, in 04 her face distorts, in 05 Mom walks out of frame during her own angry line. Those 4 shots now use `"animate": false` (pan over the exact keyframe). 02, 06, 09, 10 and 12 stay animated (stable faces). Film: 5 Wan + 6 pan shots. |
+| Person 3 (✍️ who) | Nice, but work on the animation part of the video. | Found the main cause: each Wan clip is only 2 s (49 frames) but shots are 5–8 s, so the clip played slowed down and then froze on its last frame for half the shot (ffmpeg `freezedetect`: shot 06 frozen from 3 s to the end). Now the clip flows into a slow camera push-in from its last frame: 0 frozen stretches. The 4 drifting shots are regenerated with calm video-only prompts (`wan_motion_prompt`: breathe, blink, point, "everyone stays in place"), and "Boy" fixed to "girl" in two motion prompts. Result of the calm re-run (36 min on a T4): 01 and 03 stable (kept); 04 and 05 good for the first second, then faces melt, so they use only that second (`wan_use_s: 1.0`) before the camera move. Film: 9 animated shots + 2 cutaways. |
+
+Lesson: image-to-video keeps the first frame's identity for ~1 s and then drifts; the more the motion prompt asks
+for (walking, searching, shouting), the more it drifts. Calm motions (06, 10, 12) held.
 
 ## Shot reasons
 | Shot | Who speaks | Line (English) | Why this shot exists |

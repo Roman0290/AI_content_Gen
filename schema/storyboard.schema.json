@@ -139,6 +139,19 @@
             "type": "string",
             "description": "Short emotion tag sent to TTS as '[tag] line' (e.g. angry, sarcastic). Not shown in subtitles."
           },
+          "wan_motion_prompt": {
+            "type": "string",
+            "description": "motion prompt for the video model only; calmer than motion_prompt to limit face drift"
+          },
+          "wan_use_s": {
+            "type": "number",
+            "minimum": 0.3,
+            "description": "use only the first N seconds of the Wan clip (before faces drift), then a camera move"
+          },
+          "animate": {
+            "type": "boolean",
+            "description": "false = ignore the Wan clip and pan over the exact keyframe (used when the video model drifts the characters' faces, user test 1)"
+          },
           "keyframe_from": {
             "type": "string",
             "description": "Reuse another shot's keyframe (a cutaway with a different camera move) instead of generating one"

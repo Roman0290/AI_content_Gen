@@ -14,6 +14,7 @@ import os
 import shutil
 import subprocess
 
+from pipeline.common.cache import wan_name
 from pipeline.common import kaggle_job
 from pipeline.common.config import OUTPUTS, ROOT, load_storyboard
 from pipeline.common.logging import log_call
@@ -38,7 +39,8 @@ def main() -> None:
 
     shots = sorted((s for s in sb["shots"] if not s.get("keyframe_from") and s["id"] in kf),
                    key=lambda s: PRIORITY.index(s["id"]) if s["id"] in PRIORITY else 99)
-    todo = [s for s in shots if not (WAN_DIR / f"{s['id']}_{kf[s['id']]['hash']}.mp4").exists()]
+    shots = [s for s in shots if s.get("animate", True)]
+    todo = [s for s in shots if not (WAN_DIR / f"{wan_name(s, kf[s['id']]['hash'])}.mp4").exists()]
     if not todo:
         print("all Wan clips cached")
         return
@@ -51,8 +53,8 @@ def main() -> None:
     for s in todo:
         src = ROOT / kf[s["id"]]["file"]
         shutil.copy(src, data / src.name)
-        jobs.append({"shot": s["id"], "keyframe": src.name, "out_name": f"{s['id']}_{kf[s['id']]['hash']}",
-                     "seed": s.get("seed", 0), "prompt": f"{s['motion_prompt']}. {s['image_prompt']}. "
+        jobs.append({"shot": s["id"], "keyframe": src.name, "out_name": wan_name(s, kf[s["id"]]["hash"]),
+                     "seed": s.get("seed", 0), "prompt": f"{s.get('wan_motion_prompt', s['motion_prompt'])}. {s['image_prompt']}. "
                      f"Hand-painted 2D animation, gentle natural motion. {style}"})
     cfg = {"width": 480, "height": 832, "frames": 49, "steps": args.steps, "budget_min": args.budget, "jobs": jobs}
     (data / "jobs.json").write_text(json.dumps(cfg, indent=2))

@@ -63,3 +63,88 @@
 - **Result:** chosen **B (tizita)** after listening to all three. ✍️ Reason, in your own words: ...
 - **Decision:** `storyboard.json` → `music.chosen: "B"`; `make film` copies it to `outputs/music/chosen.wav`.
   Both exports measure **−16.8 LUFS** integrated (target −16).
+
+## E06: Can Gemini TTS say the Amharic ejective ch' (ጨ family) in Mom's first line? (2026-11-26)
+- **Hypothesis:** user test 2 (Person 1) heard Mom mispronounce ch' in "አምጪልኝ" (shot_02). If it was a
+  one-off bad sample, a plain retake fixes it. If the model can't produce the sound, only a rephrase that
+  avoids the sound fixes it.
+- **Change:** `scripts/experiments/tts_ejective_retake.py`, same model (gemini-3.8-flash-tts) and voice (Kore),
+  three takes against the current clip: **A** the same line again, **B** the line with a
+  `[clear, careful pronunciation]` tag, **C** a rephrase without the sound ("ይዘሽልኝ ነይ", "bring it to me").
+  Outputs in `outputs/experiments/e06_ch_sound/`. runs.jsonl `stage: experiment_e06`: 3 ok (5.8 s, 5.9 s,
+  3.1 s), 2 hit the daily quota on key 1 and went through on key 2 (F06).
+- **Result (measured):** durations: current 3.13 s, A 3.58 s, **B 6.10 s**, C 3.77 s. In E03 an emotion
+  tag did not change the length (it was not spoken). Here the tag almost doubles it. That suggests a
+  long, instruction-like tag is partly read aloud or slows the whole delivery, so B is suspect before
+  anyone listens. ✍️ Which take a native listener chose, and whether A still has the wrong ch'.
+- **Decision:** ✍️ (storyboard shot_02 still has the original line "…አምጪልኝ።"). Lesson either way: a
+  tester's pronunciation complaint is cheap to test with three takes (about 15 s of API time). Rephrasing
+  around a sound the model can't make is a valid fix for a narration you control.
+
+## E07: Does Wan 2.2 image-to-video keep the characters' identity? (2026-11-26)
+- **Hypothesis:** image-to-video holds the keyframe's identity for the whole clip, because the first frame
+  is fixed (Appendix B: "image-to-video is much more consistent than text-to-video").
+- **Change:** none to generation. User test 2 (Person 2: "the animation changes people's appearance a little")
+  prompted a check of the first and last frame of all 9 clips from the first successful Wan run
+  (runs.jsonl 2026-11-26T05:39, seeds 101–112, 480×832, 49 frames, 25 steps).
+- **Result:** 4 of 9 clips drifted, and every one of them had an action motion prompt: shot_01 (relatives
+  laughing): people rearrange and a new man appears. shot_03 (fast search, clothes tossed): the girl
+  turns into a different child. shot_04 (girl shouts, camera shake): her face distorts. shot_05 (Mom rises
+  and walks): she walks out of frame during her own angry line. The 5 that held (02, 06, 09, 10, 12) had
+  small motions (a gesture, steam, a head tilt, a slow pull-out).
+- **Decision:** the hypothesis is only half true. The first frame is fixed, but identity is not held
+  after it. Interim fix: `"animate": false` on the 4 drifting shots (pan over the keyframe). Then E09
+  tested whether the prompt, not the model, was the cause.
+
+## E08: Why the Wan shots looked "dead": fitting 2 s clips into 5–8 s shots (2026-11-26)
+- **Hypothesis:** Person 3's "work on the animation part" is not about motion quality. Each Wan clip is
+  49 frames at 24 fps (2.04 s, confirmed with ffprobe on `outputs/shots/wan/*.mp4`), but the shots are
+  5–8 s. The old `render_wan` slowed a clip by at most 1.5× and then held the last frame (`tpad
+  stop_mode=clone`), so most of each shot is a still frame.
+- **Change:** `pipeline/shots.py` `render_wan` now plays the clip and then continues from its last frame
+  with a slow camera push-in (`pan_filter("slow push-in", …)`) for the rest of the shot. The cache key
+  changed to `shot-v2`, so only the Wan shots re-rendered.
+- **Result (measured, `ffmpeg -vf freezedetect=n=-50dB:d=0.5`):** old renders (2026-11-26 08:39): all 9
+  Wan shots freeze from 2.92–3.00 s to the end, **34.2 s frozen out of the 72 s film**. Current renders
+  (`outputs/shots/manifest.json`): **0 s frozen** in all 11 shots.
+- **Decision:** keep the push-in tail. Lesson: measure before regenerating. The fix was a free FFmpeg
+  change, not more GPU time. A 4× longer clip (81+ frames) would have run out of memory on the T4 (F13).
+
+## E09: Calm motion prompts versus action motion prompts on the same seeds (2026-11-26)
+- **Hypothesis:** the drift in E07 comes from asking for big actions. A video-only prompt that asks for
+  almost nothing (breathe, blink, one gesture, "stays in place", "camera static") keeps identity, with
+  the same keyframe and seed.
+- **Change:** a new storyboard field `wan_motion_prompt` (only the Wan stage reads it; `motion_prompt` still
+  drives the pan fallback), set on the 4 drifting shots, e.g. shot_03 "fast comic pan… clothes tossed in
+  the air" became "the girl stays kneeling in the same place and slowly turns her head… Camera static".
+  "Boy" was also fixed to "girl" in two motion prompts. Same seeds as E07 (101, 103, 104, 105); only the
+  prompt changed. runs.jsonl 2026-11-26T08:34: 4 clips, 451–463 s each on a T4, peak 12.96 GB.
+- **Result:** shot_01 and shot_03 now stable for the whole clip (kept, animated again). shot_04 and shot_05
+  are good for about the first second, then the faces melt anyway.
+- **Decision:** calm prompts fixed 2 of 4. Prompt wording matters, but it doesn't fully fix drift on
+  faces with strong expressions (the girl's hands on her cheeks, Mom shouting). Combined with E07:
+  **the more a prompt asks for, the more Wan 2.2 TI2V-5B drifts.** Calm motions (06, 10, 12) held in
+  both runs.
+
+## E10: Using only the good first second of a drifting clip (2026-11-26)
+- **Hypothesis:** for shot_04 and shot_05 (E09), 1 s of real motion followed by a camera move looks better
+  than a pan over a still, and hides the melt.
+- **Change:** a new storyboard field `wan_use_s: 1.0`. `render_wan` trims the clip to that length, then continues
+  with the push-in from that frame (E08). It is part of the shot's cache key, so changing it re-renders
+  only that shot.
+- **Result:** both shots render with no frozen frames (E08 measurement). The melting part is never shown.
+  The film now has 9 animated shots + 2 cutaways (07, 11; F12), up from 5 Wan + 6 pan after E07.
+- **Decision:** keep. This follows Appendix B's "if a clip is about 80 % right, trim it": no extra GPU time,
+  and a storyboard field records the choice so a re-run reproduces it.
+
+## E11: Fitting Wan 2.2 TI2V-5B on a 16 GB T4 (2026-11-25 → 26)
+- **Hypothesis:** whole-model CPU offload at 81 frames is enough on a T4 (it is enough on a 24 GB card).
+- **Change:** run 1: 480×832, 81 frames, fp16, `enable_model_cpu_offload` → run 2/3: 49 frames, VAE
+  tiling, text embeddings computed first and the text encoder freed, a fallback chain of memory strategies,
+  and stop after 2 identical errors.
+- **Result:** run 1 (2026-11-25T13:33): OOM on the first shot at 14.39/14.56 GB, 0/9 clips (F13). Run 2
+  (2026-11-26T04:16): no OOM, but 0/9 because of a CPU/CUDA device mismatch (F19). Run 3 (05:39): **9/9 clips,
+  471.8–485.3 s each, peak 12.96 GB**, 76.9 GPU min.
+- **Decision:** 49 frames at 480×832 is the working point on a free T4: ~1 GB of headroom, about 8 min per
+  2 s clip. That budget is what made E08 (stretch with FFmpeg rather than generate longer clips) the
+  right fix.

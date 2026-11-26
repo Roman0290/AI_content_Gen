@@ -1,9 +1,26 @@
-# If I Come and Find It (እኔ መጥቼ ካገኘሁት)
+# "If I Come and Find It..." (እኔ መጥቼ ካገኘሁት)
 
-A 75-second AI-made short film about a scene every Habesha child knows: Mom asks for her bag, you can't
-find it, she comes in angry and finds it in one second; and, busy at the stove, she answers "put it on my
-head!". Narrated in **Amharic** with **English subtitles**, made by a code pipeline from one file,
-`storyboard.json`.
+*A 75-second AI-made short film about my mom, and about every Habesha mom. In our house it happens almost
+every day: I can't find what she asked for, and she finds it in one second. Then I found out it happens in
+every Habesha home. Narrated in Amharic with English subtitles.*
+
+The title is what every Habesha mother says when you tell her you can't find something: *"If I come in
+there and find it..."*. The rest of the sentence is a threat.
+
+**The story.** Two short scenes from our house:
+1. **The lost bag.** Mom asks her daughter to bring her bag from the bedroom. The girl searches everywhere
+   and gives up. Mom walks in, angry, and finds it in one second. It was on the bed, in plain sight.
+2. **The trash.** Mom is busy cooking wot. The daughter asks where to put the trash, and Mom, stressed,
+   answers: *"Put it on my head!"*
+
+**Why this story.** My mother really does this, every time. What amazed me is that it isn't only my mother:
+when I told friends, every one of them had the same memory from their own house. I wanted to film it so
+Habesha families, at home and in the diaspora, recognise their own mom, laugh, and share it with their
+siblings.
+
+**How it's made.** The film is not edited by hand. A code pipeline builds it from one file,
+`storyboard.json`: keyframes, moving shots, Amharic narration, an original score, subtitles and the final
+edit.
 
 Outputs: `outputs/final/film_9x16.mp4` (vertical, main) and `outputs/final/film_16x9.mp4`.
 
